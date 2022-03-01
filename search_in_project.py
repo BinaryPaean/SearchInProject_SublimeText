@@ -164,16 +164,7 @@ class SearchInProjectCommand(sublime_plugin.WindowCommand):
         return search_folders
 
     def find_common_path(self, paths):
-        paths = [path.replace("\"", "") for path in paths]
-        paths = [path.split("/") for path in paths]
-        common_path = []
-        while 0 not in [len(path) for path in paths]:
-            next_segment = list(set([path.pop(0) for path in paths]))
-            if len(next_segment) == 1:
-                common_path += next_segment
-            else:
-                break
-        return "\"" + "/".join(common_path) + "/\""
+        return os.path.commonprefix(paths)
 
 class SearchInProjectResultsCommand(sublime_plugin.TextCommand):
     def format_result(self, common_path, filename, lines):
